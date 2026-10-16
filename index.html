@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idea Generator</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f2fbf9;color:#173b39}
+header{background:linear-gradient(135deg,#087f72,#25b8a2);color:white;text-align:center;padding:30px 16px}
+header h1{margin:0;font-size:32px}
+header p{margin-bottom:0}
+main{max-width:750px;margin:22px auto;padding:16px}
+.card{background:white;padding:20px;border-radius:18px;margin-bottom:18px;box-shadow:0 5px 20px #124b4010}
+label{display:block;font-weight:bold;margin-bottom:8px}
+select,textarea,input{width:100%;padding:13px;border:1px solid #c9e4df;border-radius:10px;font-size:16px;margin-bottom:14px}
+textarea{min-height:110px;resize:vertical}
+button{border:0;border-radius:25px;padding:13px 20px;background:#087f72;color:white;font-size:16px;font-weight:bold;cursor:pointer}
+button:active{transform:scale(.98)}
+.secondary{background:#e0f5f0;color:#086b60;margin-left:6px}
+#result{white-space:pre-wrap;line-height:1.7;overflow-wrap:anywhere}
+.small{font-size:13px;color:#54736e}
+footer{text-align:center;padding:20px;color:#54736e}
+</style>
+</head>
+<body>
+<header>
+<h1>💡 Idea Generator</h1>
+<p>Your creative assistant for stories, videos and ideas</p>
+</header>
+
+<main>
+<div class="card">
+<h2>✨ What do you need today?</h2>
+<label for="category">Choose a category</label>
+<select id="category">
+<option>Story Writing</option>
+<option>YouTube Channel Ideas</option>
+<option>YouTube Video Ideas</option>
+<option>Image Fonts and Design</option>
+<option>Free AI Video Tools</option>
+<option>Creative Ideas</option>
+<option>Problem Solving</option>
+<option>AI Image Prompts</option>
+</select>
+
+<label for="request">Describe what you want</label>
+<textarea id="request" placeholder="Example: Write a funny story using a rabbit, a bear and a magic forest..."></textarea>
+
+<label for="length">Answer length</label>
+<select id="length">
+<option>Short</option>
+<option selected>Medium</option>
+<option>Long</option>
+<option>Very Long</option>
+</select>
+
+<button onclick="generate()">Generate My Idea ✨</button>
+<button class="secondary" onclick="clearAll()">Clear</button>
+</div>
+
+<div class="card">
+<h2>🪄 Your Result</h2>
+<div id="result">Your generated content will appear here.</div>
+<p class="small" id="note">This starter version uses built-in templates, not a live AI connection.</p>
+<button class="secondary" onclick="copyResult()">Copy Result</button>
+</div>
+</main>
+
+<footer>Made for curious minds 💚</footer>
+
+<script>
+function generate(){
+ const category=document.getElementById('category').value;
+ const request=document.getElementById('request').value.trim();
+ const length=document.getElementById('length').value;
+ const result=document.getElementById('result');
+ if(!request){
+  result.textContent='Please describe what you need first.';
+  return;
+ }
+ let advice={
+ 'Story Writing':'Create a clear beginning, an interesting problem, meaningful character choices, and a satisfying ending. Use the supplied words and theme as the foundation.',
+ 'YouTube Channel Ideas':'Choose a clear topic, a memorable channel name, a consistent visual style, and videos that help or entertain a specific audience.',
+ 'YouTube Video Ideas':'Start with a strong opening, one clear topic, an engaging middle, and a useful or memorable ending.',
+ 'Image Fonts and Design':'Try a bold font for the heading and a simple readable font for supporting text. Keep contrast strong and avoid overcrowding the image.',
+ 'Free AI Video Tools':'Look for tools with a free tier. Check current export limits, watermarks, usage credits, and commercial-use terms before creating.',
+ 'Creative Ideas':'Identify the audience, the problem to solve, what makes the idea different, and the easiest first version to test.',
+ 'Problem Solving':'Break the problem into smaller parts, identify the main obstacle, compare practical options, and test the simplest safe solution first.',
+ 'AI Image Prompts':'Describe the subject, setting, lighting, mood, composition, color palette, and desired image style.'
+ };
+ let extra='';
+ if(length==='Long'||length==='Very Long'){
+  extra='\n\nSuggested steps:\n1. Define the goal and audience.\n2. List the important details.\n3. Develop the main idea.\n4. Add useful examples and specific details.\n5. Review and improve the final result.';
+ }
+ result.textContent='Your request: '+request+
+ '\n\nCategory: '+category+
+ '\n\nStarting suggestion:\n'+advice[category]+extra+
+ '\n\nNote: This is an initial suggestion, not AI-generated content. Connect an AI service to generate full custom stories and detailed answers.';
+}
+function clearAll(){
+ document.getElementById('request').value='';
+ document.getElementById('result').textContent='Your generated content will appear here.';
+}
+function copyResult(){
+ const text=document.getElementById('result').textContent;
+ if(navigator.clipboard){
+  navigator.clipboard.writeText(text).then(()=>alert('Copied!')).catch(()=>alert('Please select and copy the result.'));
+ }else{
+  alert('Please select and copy the result.');
+ }
+}
+</script>
+</body>
+</html>
